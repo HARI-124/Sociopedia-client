@@ -4,6 +4,12 @@ import { Typography,Box } from "@mui/material";
 export default function register(){
     return (
         <>
+        <Box
+        display="flex"
+        justifyContent="center"
+        alignContent="center"
+        >
+
         <Typography
       fontWeight="bold"
       fontSize= "32px"
@@ -21,6 +27,9 @@ export default function register(){
       Welcome to Sociopedia
   </Typography>
       </Box>
+        </Box>
+        
+        
             <Form>
                 
             </Form>

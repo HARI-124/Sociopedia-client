@@ -4,16 +4,17 @@ import { EditOutlined } from "@mui/icons-material";
 import {Formik} from "formik";
 import * as yup from "yup";
 import Link from "next/link";
-import { useRouter } from "next/router";
-
-
+import { Router, useRouter } from "next/router";
+import { useState } from "react";
+import { setLogin,setLogout,setFriends,setPost,setPosts } from "@/state/reducer";
+import { useDispatch,useSelector } from "react-redux";
 
 
 
 
 
 // Initializations
-// const router = useRouter();
+
 const loginSchema = yup.object().shape({
     email:yup.string().email("invalid mail").required("required"),
     password: yup.string().required("required"),
@@ -26,28 +27,33 @@ const initialValuesLogin = {
     password:"",
   }
 
-const login = async(values,onSubmitprops)=>{
-    
-    const loggenInResponse = await fetch("http://localhost:3001/auth/login",{
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const loggedIn = await loggenInResponse.json();
-    onSubmitprops.resetForm();
-    if(loggedIn){
-      console.log(loggedIn.user);
-      // dispatch(setLogin({
-      //   user: loggedIn.user,
-      //   token: loggedIn.token
-      // }))
-      // router.push("/home");
-    }
 
-  };
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const loginURL = "http://localhost:3001/auth/login"
+  const login = async(values,onSubmitprops)=>{
+    const loggedInResponse = await fetch(loginURL,{
+      method:"POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(values),
+    })
+    const loggedIn = await loggedInResponse.json();
+    onSubmitprops.resetForm();
+    if(loggedIn){
+      dispatch(setLogin({
+        user:loggedIn.user,
+        token:loggedIn.token,
+      }))
+        router.push("/home");
+       
+    }else{
+      console.log("not fetched in login");
+    }
+    // console.log(values);
 
+  };
 
   return (
     
@@ -123,9 +129,7 @@ export const LoginForm = () => {
             maxHeight:"50px",
             transition:"500ms",
             bgcolor:"primary",
-            ":hover":{
-              bgcolor:"white"
-            }
+            
           }} 
           type="submit"
           variant = "contained"

@@ -57,6 +57,9 @@ const Form = () => {
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
 
+    console.log(formData);
+    
+
   };
 
 
@@ -228,9 +231,7 @@ const Form = () => {
             maxHeight:"50px",
             transition:"500ms",
             bgcolor:"primary",
-            ":hover":{
-              bgcolor:"white"
-            }
+           
           }} 
           variant = "contained"
           type="submit"
